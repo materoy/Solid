@@ -1,6 +1,6 @@
 part of 'home_cubit.dart';
 
-@immutable
-abstract class HomeState {}
-
-class HomeInitial extends HomeState {}
+class HomeState {
+  HomeState(this.backgroundColor);
+  final int backgroundColor;
+}
