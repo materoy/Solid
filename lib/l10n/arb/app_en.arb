@@ -1,0 +1,7 @@
+{
+    "@@locale": "en",
+    "displayText": "Hey there",
+    "@displayText": {
+        "description": "Text to display at the center of the screen"
+    }
+}
