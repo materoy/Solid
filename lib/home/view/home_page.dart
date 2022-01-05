@@ -22,9 +22,12 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return Scaffold(
-            backgroundColor: Color(state.backgroundColor),
-            body: Center(child: Text(context.l10n.displayText)));
+        return GestureDetector(
+          onTap: () => context.read<HomeCubit>().generateRandomColor(),
+          child: Scaffold(
+              backgroundColor: Color(state.backgroundColor),
+              body: Center(child: Text(context.l10n.displayText))),
+        );
       },
     );
   }
