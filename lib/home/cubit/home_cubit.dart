@@ -1,11 +1,12 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeState(0xFFFFFFFF));
+  HomeCubit() : super(const HomeState(0xFFFFFFFF));
   final rand = Random();
 
   void generateRandomColor() {
@@ -16,7 +17,8 @@ class HomeCubit extends Cubit<HomeState> {
       stringBuffer.write(value);
     }
 
-    print(stringBuffer.toString());
-    // emit(HomeState(stringBuffer.toString()));
+    final color = int.parse(stringBuffer.toString());
+    print(color);
+    emit(HomeState(color));
   }
 }
