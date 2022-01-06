@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,10 +21,8 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var touchPosition = Offset.zero;
     return GestureDetector(
       onTapUp: (details) {
-        touchPosition = details.globalPosition;
         context.read<HomeCubit>().generateRandomColor();
       },
       child: Scaffold(
@@ -37,9 +33,8 @@ class HomeView extends StatelessWidget {
               width: double.infinity,
               child: BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
-                  return _AnimatedColorChange(
+                  return AnimatedColorChange(
                     backgroundColor: Color(state.backgroundColor),
-                    location: touchPosition,
                   );
                 },
               ),
@@ -75,46 +70,29 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class _AnimatedColorChange extends StatefulWidget {
-  const _AnimatedColorChange({
+class AnimatedColorChange extends StatefulWidget {
+  const AnimatedColorChange({
     Key? key,
     required this.backgroundColor,
-    required this.location,
   }) : super(key: key);
   final Color backgroundColor;
-  final Offset location;
 
   @override
   _AnimatedColorChangeState createState() => _AnimatedColorChangeState();
 }
 
-class _AnimatedColorChangeState extends State<_AnimatedColorChange>
+class _AnimatedColorChangeState extends State<AnimatedColorChange>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
-
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.bounceOut);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
-      // alignment: Alignment(widget.location.dx, widget.location.dy),
       children: [
         Transform.scale(
           scale: 1,
           child: AnimatedContainer(
             height: 1000,
             width: 1000,
-            decoration: BoxDecoration(color: widget.backgroundColor),
+            color: widget.backgroundColor,
             duration: const Duration(milliseconds: 600),
           ),
         ),

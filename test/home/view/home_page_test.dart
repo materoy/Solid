@@ -1,6 +1,9 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:solid_software/home/cubit/home_cubit.dart';
 import 'package:solid_software/home/home.dart';
 
@@ -28,44 +31,40 @@ void main() {
       homeCubit = MockHomeCubit();
     });
 
-    // testWidgets('renders current count', (tester) async {
-    //   const state = 42;
-    //   when(() => counterCubit.state).thenReturn(state);
-    //   await tester.pumpApp(
-    //     BlocProvider.value(
-    //       value: counterCubit,
-    //       child: const CounterView(),
-    //     ),
-    //   );
-    //   expect(find.text('$state'), findsOneWidget);
-    // });
+    testWidgets('renders state color', (tester) async {
+      const state = HomeState(0xFFFFFFFF);
+      when(() => homeCubit.state).thenReturn(state);
 
-    // testWidgets('calls increment when increment button is tapped',
-    //     (tester) async {
-    //   when(() => counterCubit.state).thenReturn(0);
-    //   when(() => counterCubit.increment()).thenReturn(null);
-    //   await tester.pumpApp(
-    //     BlocProvider.value(
-    //       value: counterCubit,
-    //       child: const CounterView(),
-    //     ),
-    //   );
-    //   await tester.tap(find.byIcon(Icons.add));
-    //   verify(() => counterCubit.increment()).called(1);
-    // });
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: homeCubit,
+          child: const HomeView(),
+        ),
+      );
 
-    // testWidgets('calls decrement when decrement button is tapped',
-    //     (tester) async {
-    //   when(() => counterCubit.state).thenReturn(0);
-    //   when(() => counterCubit.decrement()).thenReturn(null);
-    //   await tester.pumpApp(
-    //     BlocProvider.value(
-    //       value: counterCubit,
-    //       child: const CounterView(),
-    //     ),
-    //   );
-    //   await tester.tap(find.byIcon(Icons.remove));
-    //   verify(() => counterCubit.decrement()).called(1);
-    // });
+      expect(
+        find.byWidget(
+          AnimatedColorChange(
+            backgroundColor: Color(state.backgroundColor),
+          ),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets(
+        'calls generate_random_color when anywhere on the screen is tapped',
+        (tester) async {
+      when(() => homeCubit.state).thenReturn(const HomeState(0xFFFFFFFF));
+      when(() => homeCubit.generateRandomColor()).thenReturn(null);
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: homeCubit,
+          child: const HomeView(),
+        ),
+      );
+      await tester.tap(find.byType(Scaffold));
+      verify(() => homeCubit.generateRandomColor()).called(1);
+    });
   });
 }

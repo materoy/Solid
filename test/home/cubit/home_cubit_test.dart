@@ -14,5 +14,14 @@ void main() {
       act: (cubit) => cubit.generateRandomColor(),
       expect: () => [isInstanceOf<HomeState>()],
     );
+
+    blocTest<HomeCubit, HomeState>(
+      'returns a valid color value on generate new color',
+      build: () => HomeCubit(),
+      act: (cubit) => cubit.generateRandomColor(),
+      verify: (cubit) =>
+          cubit.state.backgroundColor > 0 &&
+          cubit.state.backgroundColor < 16777216,
+    );
   });
 }
