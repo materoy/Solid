@@ -76,15 +76,8 @@ void main() {
           child: const HomeView(),
         ),
       );
-      await tester.tap(find.byType(Scaffold));
+      await tester.tap(find.byType(AnimatedColorChange));
 
-      // expect(
-      //   (tester.firstWidget(find.byType(AnimatedColorChange))
-      //           as AnimatedColorChange)
-      //       .backgroundColor
-      //       .value,
-      //   isNot(state.backgroundColor),
-      // );
       expect(homeCubit.state, isNot(state));
     });
   });
