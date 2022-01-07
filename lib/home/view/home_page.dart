@@ -53,7 +53,9 @@ class HomeView extends StatelessWidget {
                   ColorizeAnimatedText(
                     context.l10n.displayText,
                     textStyle: const TextStyle(
-                        fontSize: 26, fontWeight: FontWeight.w800),
+                      fontSize: 26,
+                      fontWeight: FontWeight.w800,
+                    ),
                     colors: [Colors.black, Colors.green],
                   ),
                 ],
@@ -78,6 +80,7 @@ class AnimatedColorChange extends StatefulWidget {
   final Color backgroundColor;
 
   @override
+  // ignore: library_private_types_in_public_api
   _AnimatedColorChangeState createState() => _AnimatedColorChangeState();
 }
 
