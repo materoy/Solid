@@ -31,7 +31,7 @@ void main() {
       homeCubit = MockHomeCubit();
     });
 
-    testWidgets('renders state color', (tester) async {
+    testWidgets('renders initial state color', (tester) async {
       const state = HomeState(0xFFFFFFFF);
       when(() => homeCubit.state).thenReturn(state);
 
@@ -43,12 +43,10 @@ void main() {
       );
 
       expect(
-        find.byWidget(
-          AnimatedColorChange(
-            backgroundColor: Color(state.backgroundColor),
-          ),
-        ),
-        findsOneWidget,
+        (tester.firstWidget(find.byType(AnimatedColorChange))
+                as AnimatedColorChange)
+            .backgroundColor,
+        Color(state.backgroundColor),
       );
     });
 
@@ -65,6 +63,30 @@ void main() {
       );
       await tester.tap(find.byType(Scaffold));
       verify(() => homeCubit.generateRandomColor()).called(1);
+    });
+
+    testWidgets('shows a new color when its generated', (tester) async {
+      const state = HomeState(0xFFFFFFFF);
+      when(() => homeCubit.state).thenReturn(state);
+      when(() => homeCubit.generateRandomColor()).thenAnswer((invocation) {
+        when(() => homeCubit.state).thenReturn(const HomeState(0));
+      });
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: homeCubit,
+          child: const HomeView(),
+        ),
+      );
+      await tester.tap(find.byType(Scaffold));
+
+      // expect(
+      //   (tester.firstWidget(find.byType(AnimatedColorChange))
+      //           as AnimatedColorChange)
+      //       .backgroundColor
+      //       .value,
+      //   isNot(state.backgroundColor),
+      // );
+      expect(homeCubit.state, isNot(state));
     });
   });
 }
