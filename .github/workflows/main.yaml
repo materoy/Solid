@@ -1,6 +1,7 @@
 name: solid_software
 
-on: push:
+on: 
+  push:
       tags:
         - '*'
 
