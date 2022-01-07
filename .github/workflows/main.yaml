@@ -27,10 +27,7 @@ jobs:
         uses: VeryGoodOpenSource/very_good_coverage@v1.2.0
 
       - name: Build APK
-        run: flutter build apk --release
-
-      - name: Build APPBUNDLE
-        run: flutter build appbundle --release
+        run: flutter build apk --release --flavor production --target lib/main_production.dart
 
       - name: Create Github Release
         uses: ncipollo/release-action@v1
