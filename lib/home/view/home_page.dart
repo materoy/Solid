@@ -48,7 +48,7 @@ class HomeView extends StatelessWidget {
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
                     ),
-                    speed: const Duration(milliseconds: 400),
+                    speed: const Duration(milliseconds: 200),
                   ),
                   ColorizeAnimatedText(
                     context.l10n.displayText,
