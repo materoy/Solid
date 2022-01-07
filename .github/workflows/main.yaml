@@ -35,5 +35,11 @@ jobs:
       - name: Create Github Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/apk/release/*.apk,build/app/outputs/bundle/release/*.aab"
+          artifacts: "build/app/outputs/apk/production/release/*.apk"
           token: ${{ secrets.RELEASES_TOKEN }}
+
+      - name: Save APPBUNDLE to Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: APK
+          path: build/app/outputs/apk/production/release/*.apk
